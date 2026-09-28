@@ -12,6 +12,9 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     heroImage: z.string().optional(),
+    heroAlt: z.string().optional(),
+    // Which dog is holding the pen (well, the paw)
+    author: z.enum(["maggie", "bailey", "both"]).default("both"),
   }),
 });
 

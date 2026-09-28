@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import { AUTHORS } from '../consts';
+
+interface Props {
+	post: CollectionEntry<'blog'>;
+	featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const a = AUTHORS[post.data.author];
+---
+
+<a class:list={['card', { featured }]} href={`/blog/${post.id}/`}>
+	{
+		post.data.heroImage ? (
+			<img src={post.data.heroImage} alt={post.data.heroAlt ?? ''} loading="lazy" />
+		) : (
+			<div class="placeholder" aria-hidden="true">{a.emoji}</div>
+		)
+	}
+	<h4 class="title">{post.data.title}</h4>
+	<p class="meta">{a.emoji} {a.name} · <FormattedDate date={post.data.pubDate} /></p>
+</a>
+
+<style>
+	.card {
+		display: block;
+		text-decoration: none;
+	}
+	img,
+	.placeholder {
+		display: block;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		object-position: center 35%;
+		border-radius: 14px;
+		margin-bottom: 0.5rem;
+		transition: box-shadow 0.2s ease;
+	}
+	.featured img,
+	.featured .placeholder {
+		aspect-ratio: 16 / 9;
+	}
+	.placeholder {
+		display: grid;
+		place-items: center;
+		background: #fde7d3;
+		font-size: 4rem;
+	}
+	.title {
+		margin: 0;
+		color: rgb(var(--black));
+		line-height: 1.15;
+		transition: color 0.2s ease;
+	}
+	.featured .title {
+		font-size: 2rem;
+	}
+	.meta {
+		margin: 0.25em 0 0;
+		color: rgb(var(--gray));
+		font-size: 0.9em;
+	}
+	.card:hover .title {
+		color: var(--accent);
+	}
+	.card:hover img {
+		box-shadow: var(--box-shadow);
+	}
+	@media (max-width: 720px) {
+		.featured .title {
+			font-size: 1.5rem;
+		}
+	}
+</style>

@@ -1,6 +1,6 @@
 {
   "name": "maggie-bailey-blog",
-  "description": "Build a personal website, blog, or portfolio with Astro.",
+  "description": "Maggie & Bailey's blog, written by the dogs.",
   "cloudflare": {
     "label": "Astro Framework Starter",
     "products": [
@@ -21,9 +21,6 @@
     "astro": "5.7.4",
     "typescript": "5.8.3"
   },
-  "devDependencies": {
-    "wrangler": "4.16.1"
-  },
   "scripts": {
     "astro": "astro",
     "build": "astro build",
@@ -31,7 +28,12 @@
     "check": "astro build && tsc && wrangler deploy --dry-run",
     "deploy": "wrangler deploy",
     "dev": "astro dev",
-    "preview": "astro build && wrangler dev"
+    "preview": "astro build && wrangler dev",
+    "post:publish": "node scripts/dogblog.mjs publish",
+    "post:draft": "node scripts/dogblog.mjs draft"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "4.16.1"
+  }
 }

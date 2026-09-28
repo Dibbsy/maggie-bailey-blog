@@ -1,0 +1,23 @@
+---
+import { AUTHORS, type AuthorKey } from '../consts';
+
+interface Props {
+	author: AuthorKey;
+}
+
+const a = AUTHORS[Astro.props.author];
+---
+
+<span class="byline">{a.emoji} Written by {a.name}</span>
+
+<style>
+	.byline {
+		display: inline-block;
+		padding: 0.15em 0.7em;
+		border-radius: 999px;
+		background: #fde7d3;
+		color: #7c2d12;
+		font-size: 0.85em;
+		font-weight: 700;
+	}
+</style>
