@@ -1,0 +1,53 @@
+name: Publish a dog post
+
+# Mon, Wed and Fri at 7am Sydney standard time (8am during daylight saving).
+# GitHub cron is always UTC: 21:00 UTC Sun/Tue/Thu = 07:00 AEST Mon/Wed/Fri.
+on:
+  schedule:
+    - cron: "0 21 * * 0,2,4"
+  workflow_dispatch: {} # "Run workflow" button for publishing one right now
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publish-dog-post
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install HEIC support (iPhone photos)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libheif-examples
+
+      - run: npm ci
+
+      - name: Publish the next post
+        id: publish
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+        run: node scripts/dogblog.mjs publish
+
+      - name: Make sure the site still builds
+        if: steps.publish.outputs.title != ''
+        run: npm run build
+
+      - name: Commit and push (Cloudflare deploys on push)
+        if: steps.publish.outputs.title != ''
+        env:
+          TITLE: ${{ steps.publish.outputs.title }}
+        run: |
+          git config user.name "Maggie & Bailey"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A dogblog src/content/blog public/photos
+          git commit -m "New post: ${TITLE}"
+          git push
