@@ -2,6 +2,7 @@
 title: "A serious essay about balls, by Maggie"
 description: "Maggie explains, calmly and scientifically, why the ball is the most important object in the universe."
 author: "maggie"
+pubDate: "2026-09-30T00:05:12.699Z"
 ---
 
 Dad said I should write something "thoughtful" for my first solo post. So I've thought about it, and I want to talk about the most important thing in the world.
