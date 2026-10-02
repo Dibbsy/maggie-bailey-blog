@@ -2,6 +2,7 @@
 title: "The rules of zoomies, by Bailey"
 description: "Bailey sets out his strict and very fair policy on who gets to zoom with him."
 author: "bailey"
+pubDate: "2026-10-02T00:33:47.362Z"
 ---
 
 People think zoomies are random. They are not. Zoomies are a sport, and like every sport, there are rules. As the house's leading zoomies expert, I'd like to set the record straight.
